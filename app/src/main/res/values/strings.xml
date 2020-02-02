@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name"></string>
+    <string name="address">192.168.1.51</string>
+    <string name="port">8080</string>
+</resources>
