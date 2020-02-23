@@ -37,11 +37,8 @@ Start the application and use the Bane Terminal.
 
 # Tasks
 
-- [ ] Connection
-- [ ] Keep-Alive Connection
+- [x] Connection
+- [x] Keep-Alive Connection
 - [ ] Shell
-- [ ] Commands
-
-# Issues
-
-- [ ] Can't detect whenever the connection is dropped
+    - [ ] echo doesn't work
+- [x] Commands
