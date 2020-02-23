@@ -1,4 +1,4 @@
-package com.example.banedroid.storage;
+package com.example.banedroid.bane.storage;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -35,11 +35,9 @@ public class Storage {
         this.preferencces.edit().putString(key, value).apply();
     }
 
-    public void remove(String key) throws StorageException {
+    public void remove(String key) {
         if(isStored(key))
             this.preferencces.edit().remove(key).apply();
-        else
-            throw new StorageException("Value is not stored");
     }
 
 }
