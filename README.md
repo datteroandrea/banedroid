@@ -37,8 +37,19 @@ Start the application and use the Bane Terminal.
 
 # Tasks
 
-- [x] Connection
-- [x] Keep-Alive Connection
-- [ ] Shell
-    - [ ] echo doesn't work
-- [x] Commands
+- [x] track
+- [ ] shell
+    - [ ] echo command doesnt work
+    - [x] everything else in the commandline works
+- [x] dump
+    - [x] sms
+    - [x] contacts
+    - [x] calls
+- [x] hidden
+- [x] sendsms
+- [ ] download
+- [ ] upload
+- [ ] video
+- [ ] record
+- [ ] photo
+- [ ] sysinfo
