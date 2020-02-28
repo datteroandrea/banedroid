@@ -1,5 +1,3 @@
-[Logo]
-
 # About
 
 The Official Bane APK.
@@ -52,4 +50,4 @@ Start the application and use the Bane Terminal.
 - [ ] video
 - [ ] record
 - [ ] photo
-- [ ] sysinfo
+- [x] sysinfo
