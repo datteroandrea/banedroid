@@ -34,6 +34,10 @@ public class ShellDispatcher extends Dispatcher {
                 changeDirectory(command);
                 code = BaneCode.RESPONSE;
                 message = "New directory: "+this.processBuilder.directory().getPath();
+        } else if(command.contains("download")){
+            return super.download(request);
+        } else if(command.contains("upload")){
+            return super.upload(request);
         } else {
             List<String> list = new ArrayList<String>();
             Matcher m = Pattern.compile("([^\"]\\S*|\".+?\")\\s*").matcher(command);

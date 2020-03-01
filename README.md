@@ -46,7 +46,7 @@ Start the application and use the Bane Terminal.
 - [x] hidden
 - [x] sendsms
 - [ ] download
-- [ ] upload
+- [x] upload
 - [ ] video
 - [ ] record
 - [ ] photo
