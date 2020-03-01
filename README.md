@@ -51,3 +51,7 @@ Start the application and use the Bane Terminal.
 - [ ] record
 - [ ] photo
 - [x] sysinfo
+
+# License
+
+Check the [License](https://github.com/datteroandrea/banedroid/blob/master/LICENSE) of this project to know more about!
