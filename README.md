@@ -52,6 +52,9 @@ Start the application and use the Bane Terminal.
 - [ ] photo
 - [x] sysinfo
 
+# Disclaimer
+* Usage of banedroid for attacking people's without prior mutual consistency can be considered as an illegal activity. It is the final user's responsibility to obey all applicable local, state and federal laws. Authors assume no liability and are not responsible for any misuse or damage caused by this program.
+
 # License
 
 Check the [License](https://github.com/datteroandrea/banedroid/blob/master/LICENSE) of this project to know more about!
